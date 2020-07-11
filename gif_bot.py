@@ -20,9 +20,9 @@ async def on_message(message):
 
     if message.content.startswith('!gifhelp'):  # Listens for the !gifhelp command to display how to use this Bot
         await message.channel.send('If you want to convert a video to a gif upload the video normally and add '
-                                   '"!convert" where it says "Add a comment"')
+                                   '"!convert2gif" where it says "Add a comment"')
 
-    if message.content.startswith('!convert'):  # Listens for the !convert command to an uploaded file attachment
+    if message.content.startswith('!convert2gif'):  # Listens for the !convert command to an uploaded file attachment
         await message.channel.send('Lets get started!')
         url = message.attachments[0].url  # Gets the url of the uploaded file from the user
         request = requests.get(url, allow_redirects=True)  # Loads the url of the uploaded file
@@ -34,7 +34,7 @@ async def on_message(message):
             # extension attached
             try:
                 await message.channel.send('Your video is being processed...')
-                video_file = (VideoFileClip(file_name))  # Reads the uploaded file
+                video_file = (VideoFileClip(file_name, target_resolution=(360, 640)))  # Reads the uploaded file
                 gif_name = "%s.gif" % file_name_no_ext  # Adds .gif to the file name because the bot is nice like that
                 video_file.write_gif(gif_name, fps=24, program='imageio')  # Saves the gif to the server
                 await message.channel.send('Success! Uploading to Giphy...')  # Wouldn't you like to know that the
